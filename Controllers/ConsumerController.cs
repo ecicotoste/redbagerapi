@@ -81,6 +81,7 @@ namespace RedBagerApi.Controllers
             consumer.ChavePixCpfCnpj = model.ChavePixCpfCnpj;
             consumer.ChavePixCelular = model.ChavePixCelular;
             consumer.ChavePixEmail = model.ChavePixEmail;
+            consumer.ContatoResponsavel = model.ContatoResponsavel;
 
             context.Consumers.Update(consumer);
             await context.SaveChangesAsync();

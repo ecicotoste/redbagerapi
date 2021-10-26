@@ -11,5 +11,6 @@ namespace RedBagerApi.Models
         public string ChavePixCpfCnpj {get; set;}
         public string ChavePixCelular {get; set;}
         public string ChavePixEmail {get; set;}
+        public string ContatoResponsavel {get; set;}
     }
 }
