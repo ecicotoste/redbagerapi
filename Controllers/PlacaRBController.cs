@@ -24,12 +24,18 @@ namespace RedBagerApi.Controllers
         [Route("{id:int}")]
         public async Task<ActionResult<PlacaRB>> GetById([FromServices] DataContext context, int id)
         {
-            var placa = await context.PlacaRBs.
-            AsNoTracking()
-            .FirstAsync(x => x.Id == id);
-            if(placa == null)
+            try
+            {
+                var placa = await context.PlacaRBs.
+                AsNoTracking()
+                .FirstAsync(x => x.Id == id);
+                return placa; 
+            }
+            catch(Exception ex)
+            {
+                var str_ex = ex.ToString();
                 return NotFound();
-            return placa; 
+            }
         }
 
         [HttpGet]
