@@ -10,5 +10,6 @@ namespace RedBagerApi.Data
         }
 
          public DbSet<PlacaRB> PlacaRBs {get; set;}
+         public DbSet<Consumer> Consumers {get; set;}        
     }
 }
