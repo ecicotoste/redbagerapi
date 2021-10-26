@@ -101,5 +101,47 @@ namespace RedBagerApi.Controllers
             await context.SaveChangesAsync();
             return "OK"; 
         }       
+
+        [HttpPut]
+        [Route("status/{status:int}")]
+        public async Task<ActionResult<PlacaRB>> PutByStatus([FromServices] DataContext context, int status)
+        {
+            try
+            {
+                var placa = await context.PlacaRBs. 
+                FirstAsync(x => x.Status == status);
+                placa.Status = 0;
+                placa.DataPlaca = Convert.ToInt64(DateTime.Now.ToString("yyyyMMdd"));
+                context.PlacaRBs.Update(placa);
+                await context.SaveChangesAsync();
+                return placa; 
+            }
+            catch(Exception ex)
+            {
+                var str_ex = ex.ToString();
+                return NotFound();
+            }
+        }
+
+        [HttpPut]
+        [Route("all/{dataplaca:int}")]
+        public async Task<ActionResult<string>> PutAll(
+            [FromServices] DataContext context, 
+            [FromBody] PlacaRB model,
+            [FromRoute] int dataplaca)
+        {
+            var placas = await context.PlacaRBs.ToListAsync();
+            foreach (var element in placas)
+            {
+                if(element.DataPlaca < dataplaca)
+                {
+                    element.Status = 9;
+                    context.PlacaRBs.Update(element);
+                    await context.SaveChangesAsync();
+                }
+            }
+
+            return "OK";
+        }       
     }
 }
