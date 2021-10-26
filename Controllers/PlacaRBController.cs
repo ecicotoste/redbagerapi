@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RedBagerApi.Data;
 using RedBagerApi.Models;
+using System;
 
 namespace RedBagerApi.Controllers
 {
@@ -26,6 +27,8 @@ namespace RedBagerApi.Controllers
             var placa = await context.PlacaRBs.
             AsNoTracking()
             .FirstAsync(x => x.Id == id);
+            if(placa == null)
+                return NotFound();
             return placa; 
         }
 
@@ -33,10 +36,17 @@ namespace RedBagerApi.Controllers
         [Route("status/{status:int}")]
         public async Task<ActionResult<PlacaRB>> GetByStatus([FromServices] DataContext context, int status)
         {
-            var placa = await context.PlacaRBs. 
-            AsNoTracking()
-            .FirstAsync(x => x.Status == status);
-            return placa; 
+            try
+            {
+                var placa = await context.PlacaRBs. 
+                FirstAsync(x => x.Status == status);
+                return placa; 
+            }
+            catch(Exception ex)
+            {
+                var str_ex = ex.ToString();
+                return NotFound();
+            }
         }
 
         [HttpGet]
