@@ -95,6 +95,7 @@ namespace RedBagerApi.Controllers
 
             placa.Status = model.Status;
             placa.DataPlaca = model.DataPlaca;
+            placa.cpfCnpj = model.cpfCnpj;
             placa.IdChamador = model.IdChamador;
 
             context.PlacaRBs.Update(placa);
