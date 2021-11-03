@@ -56,6 +56,23 @@ namespace RedBagerApi.Controllers
         }
 
         [HttpGet]
+        [Route("loja/{cpfCnpj:long}")]
+        public async Task<ActionResult<PlacaRB>> GetByStatus([FromServices] DataContext context, long cpfCnpj)
+        {
+            try
+            {
+                var placa = await context.PlacaRBs. 
+                FirstAsync(x => x.cpfCnpj == cpfCnpj && x.Status == 0);
+                return placa; 
+            }
+            catch(Exception ex)
+            {
+                var str_ex = ex.ToString();
+                return NotFound();
+            }
+        }
+
+        [HttpGet]
         [Route("count")]
         public async Task<ActionResult<int>> GetCount([FromServices] DataContext context)
         {
