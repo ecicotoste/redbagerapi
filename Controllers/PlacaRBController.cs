@@ -62,7 +62,7 @@ namespace RedBagerApi.Controllers
             try
             {
                 var placas = await context.PlacaRBs.ToListAsync();
-                placas.RemoveAll(r => r.cpfCnpj != cpfCnpj);
+                placas.RemoveAll(r => r.cpfCnpj != cpfCnpj || r.Status != 0);
                 return placas;
             }
             catch(Exception ex)
@@ -70,7 +70,6 @@ namespace RedBagerApi.Controllers
                 var str_ex = ex.ToString();
                 return NotFound();
             }
-
         }
 
         [HttpGet]
