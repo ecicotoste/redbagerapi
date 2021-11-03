@@ -57,19 +57,20 @@ namespace RedBagerApi.Controllers
 
         [HttpGet]
         [Route("loja/{cpfCnpj:long}")]
-        public async Task<ActionResult<PlacaRB>> GetByStatus([FromServices] DataContext context, long cpfCnpj)
+        public async Task<ActionResult<List<PlacaRB>>> GetByLoja([FromServices] DataContext context, long cpfCnpj)
         {
             try
             {
-                var placa = await context.PlacaRBs. 
-                FirstAsync(x => x.cpfCnpj == cpfCnpj && x.Status == 0);
-                return placa; 
+                var placas = await context.PlacaRBs.ToListAsync();
+                placas.RemoveAll(r => r.cpfCnpj != cpfCnpj);
+                return placas;
             }
             catch(Exception ex)
             {
                 var str_ex = ex.ToString();
                 return NotFound();
             }
+
         }
 
         [HttpGet]
