@@ -82,7 +82,7 @@ namespace RedBagerApi.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult<string>> Post(
+        public async Task<ActionResult<PlacaRB>> Post(
             [FromServices] DataContext context,
             [FromBody] PlacaRB model)
         {
@@ -90,7 +90,8 @@ namespace RedBagerApi.Controllers
             {
                 context.PlacaRBs.Add(model);
                 await context.SaveChangesAsync();
-                return "OK";
+                var placa = await context.PlacaRBs.LastOrDefaultAsync();
+                return placa;
             }
             else
             {
